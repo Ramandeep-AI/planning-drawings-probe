@@ -17,3 +17,6 @@ data/processed/ocr/
 data/processed/masks/
 data/candidates.csv
 PLAN.md
+# Listed document titles often carry applicant names and addresses: local only.
+data/references_titles*.csv
+data/references_dryrun*.csv

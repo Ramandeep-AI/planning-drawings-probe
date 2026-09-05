@@ -16,7 +16,7 @@ Anything else is 'unclear' and worth a look by eye.
 Also renders each page to PNG at --dpi for the OCR and vision stages.
 
 Run:  env/bin/python scripts/audit_pages.py [--dpi 200]
-Reads:  data/raw/<reference>/*.pdf  (see fetch script / manifest)
+Reads:  data/raw/<reference>/<NN>_<kind>.pdf  (named by fetch_documents.py; never by listed title)
 Writes: data/processed/pages.csv, data/processed/pages/<ref>__<file>__p<N>.png,
         outputs/metrics/page_audit.json
 """

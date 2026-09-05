@@ -68,6 +68,11 @@ field-level annotations, the extracted fields, and the metrics. Personal
 data that appears on drawings (applicant, agent and architect names,
 addresses, signatures) is stripped before anything leaves my machine;
 applications are identified only by their public council reference.
+Document titles as listed on the register are not recorded either, because
+in practice they often contain the applicant's name or the property
+address; each document is logged by an index and a kind derived from its
+title (for example `proposed_elevation`), and the local files are named
+the same way.
 
 The segmentation baseline uses weights trained on CubiCasa5K, which is
 licensed CC BY-NC-SA 4.0; that lineage is one more reason this study is

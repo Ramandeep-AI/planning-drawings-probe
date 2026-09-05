@@ -1,0 +1,47 @@
+# Householder-scale applications, Exeter, Jan to Aug 2026, chosen from PlanIt metadata
+# (extensions, lofts, dormers, garage conversions, porches, outbuildings, internal alterations).
+# Excluded: solar, telecoms, new dwellings, changes of use, major schemes. One reference per line.
+26/0071/FUL
+26/0014/FUL
+26/0028/FUL
+26/0025/FUL
+26/0059/FUL
+26/0041/FUL
+26/0173/FUL
+26/0242/FUL
+26/0268/FUL
+26/0279/FUL
+26/0285/FUL
+26/0284/FUL
+26/0295/FUL
+26/0304/FUL
+26/0325/FUL
+26/0329/FUL
+26/0335/FUL
+26/0343/FUL
+26/0551/FUL
+26/0581/FUL
+26/0587/FUL
+26/0603/FUL
+26/0607/FUL
+26/0626/FUL
+26/0640/FUL
+26/0654/FUL
+26/0673/FUL
+26/0700/FUL
+26/0710/FUL
+26/0709/FUL
+26/0780/FUL
+26/0792/FUL
+26/0804/FUL
+26/0810/FUL
+26/0832/FUL
+26/0983/FUL
+26/0994/FUL
+26/0997/FUL
+26/0999/FUL
+26/1018/FUL
+26/1183/FUL
+26/1193/FUL
+26/1207/FUL
+26/1248/FUL
