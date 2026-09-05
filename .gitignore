@@ -1,0 +1,19 @@
+# Source documents are never committed: they remain the copyright of their
+# authors and contain applicant personal data. See README, "Data and rights".
+data/raw/
+data/processed/pages/
+*.pdf
+*.tif
+*.tiff
+
+env/
+models/
+__pycache__/
+*.pyc
+.DS_Store
+outputs/figures/*.png
+!outputs/figures/.gitkeep
+data/processed/ocr/
+data/processed/masks/
+data/candidates.csv
+PLAN.md
