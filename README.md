@@ -27,8 +27,43 @@ could not be chosen after seeing the results.
 
 ## Status
 
-Started 6 September 2026. Results, failure cases and limitations will be
+Started 5 September 2026. Results, failure cases and limitations are
 written here as each stage completes.
+
+### 1. What are the documents actually like? (9 September 2026)
+
+44 householder-scale full applications from Exeter City Council's register,
+January to August 2026, chosen from public metadata before any document was
+seen (`data/references_to_fetch.txt`). The fetch collected 322 current
+drawings (all listed drawings were retrieved, none refused) totalling
+470 pages. `scripts/audit_pages.py` classified every page from its text
+layer, vector drawing objects and raster image coverage
+(`outputs/metrics/page_audit.json`, per page in `data/processed/pages.csv`):
+
+| Page kind | Pages | Share | What it means |
+|---|---|---|---|
+| born-digital | 420 | 89.4% | vector content and a text layer, no dominant raster image |
+| mixed | 35 | 7.4% | a raster image covers the page but a text layer or vector objects sit on it (a scan placed in a CAD sheet, or an OCR layer) |
+| scanned | 15 | 3.2% | raster only, no text layer, no vector objects |
+
+By application, 37 of 44 are born-digital throughout, 4 are mostly mixed
+and 3 are mostly scanned. Sheets are A3 (214 pages), A4 (162), A1 (70),
+A2 (4) and 20 non-standard sizes. 316 of the 322 files are single pages;
+one file has 87. The median page carries about 940 characters of text and
+about 430 vector drawing objects; 387 of 470 pages carry at least 200
+characters, so the title block is readable from the text layer without OCR
+on roughly four pages in five. Of the 15 scanned pages, 6 are location plans.
+
+What this decides: the raster floor-plan literature (CubiCasa5K and its
+successors) describes at most one page in ten here. For the rest, the
+problem is parsing a vector PDF and its text layer, and OCR is the fallback
+for a small tail rather than the main route. The next stage (title-block
+fields with a confidence each) therefore reads the text layer first and
+sends only image-dominant pages to docTR.
+
+Caveat: "born-digital" means the page is not a raster image; it does not
+mean the drawing's geometry is clean vector CAD. Some CAD exports embed a
+raster of the plan under a vector title block; those fall in "mixed".
 
 ## Method and layout
 

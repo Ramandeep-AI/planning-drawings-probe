@@ -1,0 +1,21 @@
+{
+  "pages": 470,
+  "files": 322,
+  "applications": 44,
+  "page_kind_counts": {
+    "born-digital": 420,
+    "mixed": 35,
+    "scanned": 15
+  },
+  "page_kind_share": {
+    "born-digital": 0.894,
+    "mixed": 0.074,
+    "scanned": 0.032
+  },
+  "applications_by_dominant_kind": {
+    "born-digital": 37,
+    "mixed": 4,
+    "scanned": 3
+  },
+  "dpi": 200
+}

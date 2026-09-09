@@ -94,13 +94,14 @@ def main():
     df.to_csv(CSV, index=False)
     counts = df["kind"].value_counts().to_dict()
     share = df["kind"].value_counts(normalize=True).round(3).to_dict()
-    print(f"{len(df)} pages from {df['file'].nunique()} files across "
+    n_files = df.groupby(['reference', 'file']).ngroups
+    print(f"{len(df)} pages from {n_files} files across "
           f"{df['reference'].nunique()} applications")
     for k, v in counts.items():
         print(f"  {k:13s} {v:4d}  ({share[k]:.1%})")
     by_app = df.groupby("reference")["kind"].agg(lambda s: s.value_counts().idxmax())
     print(f"\napplications by dominant page kind: {by_app.value_counts().to_dict()}")
-    MET.write_text(json.dumps({"pages": int(len(df)), "files": int(df['file'].nunique()),
+    MET.write_text(json.dumps({"pages": int(len(df)), "files": int(n_files),
                                "applications": int(df['reference'].nunique()),
                                "page_kind_counts": counts, "page_kind_share": share,
                                "applications_by_dominant_kind": by_app.value_counts().to_dict(),
