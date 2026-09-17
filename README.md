@@ -72,7 +72,8 @@ raster of the plan under a vector title block; those fall in "mixed".
 | choose | `scripts/find_references.py` | shortlist householder applications from PlanIt metadata |
 | fetch | `scripts/fetch_documents.py` | download the drawings for each reference, politely, once |
 | audit | `scripts/audit_pages.py` | classify every page vector / scanned / mixed; render to PNG |
-| read | `src/ocr_titleblock.py` | docTR on the title block; scale, drawing type, floor label, with confidence |
+| annotate | `scripts/annotate.py` | hand truth per page for a seeded sample of applications, before any model output |
+| read | `src/ocr_titleblock.py` | PDF text layer first, docTR only as fallback; scale, drawing type, floor label, with a confidence each |
 | see | `src/segment_floorplan.py` | pretrained U-Net (ResNet-34) walls/rooms baseline on MPS |
 | score | `scripts/evaluate_fields.py` | hit rate per field against hand annotations |
 | trust | `scripts/calibration.py` | reliability diagram, ECE, abstention threshold |
@@ -126,6 +127,7 @@ https://exeter.gov.uk/planning-services/planning-applications/find-and-comment-o
     env/bin/python scripts/fetch_documents.py --from data/references_to_fetch.txt --dry-run
     env/bin/python scripts/fetch_documents.py --from data/references_to_fetch.txt
     env/bin/python scripts/audit_pages.py
+    env/bin/python scripts/annotate.py
     env/bin/python -m src.ocr_titleblock
     env/bin/python -m src.segment_floorplan
     env/bin/python scripts/evaluate_fields.py

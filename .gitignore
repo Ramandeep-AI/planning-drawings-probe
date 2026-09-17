@@ -13,6 +13,9 @@ __pycache__/
 .DS_Store
 outputs/figures/*.png
 !outputs/figures/.gitkeep
+# metric plots contain no drawing content and are published
+!outputs/figures/reliability.png
+!outputs/figures/selective.png
 data/processed/ocr/
 data/processed/masks/
 data/candidates.csv

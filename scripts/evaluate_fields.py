@@ -46,12 +46,22 @@ def main():
     print(f"\noverall hit rate {merged['hit'].mean():.3f} over {len(merged)} annotated fields "
           f"({merged['blank'].mean():.1%} blank)")
 
+    by_source = None
+    if "source" in merged.columns:
+        merged["source"] = merged["source"].fillna("none").replace("", "none")
+        by_source = (merged.groupby(["source", "field"])
+                           .agg(n=("hit", "size"), hit_rate=("hit", "mean"))
+                           .round(3))
+        print("\nby source (text layer versus OCR):")
+        print(by_source.to_string())
+
     merged[key + ["predicted", "truth", "confidence"]].to_csv(OUT, index=False)
     MET.parent.mkdir(parents=True, exist_ok=True)
     MET.write_text(json.dumps({
         "n_annotated": int(len(merged)),
         "overall_hit_rate": round(float(merged["hit"].mean()), 4),
         "per_field": rep.reset_index().to_dict(orient="records"),
+        "by_source": by_source.reset_index().to_dict(orient="records") if by_source is not None else None,
     }, indent=2))
     print(f"wrote {OUT} and {MET}")
 
