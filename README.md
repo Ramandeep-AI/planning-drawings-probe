@@ -32,9 +32,12 @@ written here as each stage completes.
 
 ### 1. What are the documents actually like? (9 September 2026)
 
-44 householder-scale full applications from Exeter City Council's register,
-January to August 2026, chosen from public metadata before any document was
-seen (`data/references_to_fetch.txt`). The fetch collected 322 current
+44 full applications for small extensions and alterations to existing
+buildings (extensions, loft conversions, dormers, garages, porches,
+outbuildings) from Exeter City Council's register, January to August 2026,
+chosen from the proposal descriptions in public metadata before any
+document was seen (`data/references_to_fetch.txt`). 42 are to houses and
+two to non-residential premises. The fetch collected 322 current
 drawings (all listed drawings were retrieved, none refused) totalling
 470 pages. `scripts/audit_pages.py` classified every page from its text
 layer, vector drawing objects and raster image coverage

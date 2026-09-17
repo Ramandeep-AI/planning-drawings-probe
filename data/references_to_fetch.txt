@@ -1,5 +1,6 @@
-# Householder-scale applications, Exeter, Jan to Aug 2026, chosen from PlanIt metadata
-# (extensions, lofts, dormers, garage conversions, porches, outbuildings, internal alterations).
+# Full applications for small extensions and alterations, Exeter, Jan to Aug 2026, chosen from
+# PlanIt proposal descriptions (extensions, lofts, dormers, garage conversions, porches,
+# outbuildings, internal alterations); 42 are to houses, two to non-residential premises.
 # Excluded: solar, telecoms, new dwellings, changes of use, major schemes. One reference per line.
 26/0071/FUL
 26/0014/FUL
