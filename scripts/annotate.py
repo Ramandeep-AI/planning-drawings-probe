@@ -134,7 +134,7 @@ def annotate_page(reference, row, prev):
     if v["north_arrow"] in ("q", "s"):
         return v["north_arrow"], prev
     if v["drawing_type"] == "floor_plan":
-        v["room_count"] = ask("room count (integer, your stated rule)")
+        v["room_count"] = ask("room count (integer, rule in README)")
         if v["room_count"] in ("q", "s"):
             return v["room_count"], prev
         if v["floor_label"] == "ground":

@@ -1,6 +1,6 @@
 """Hit rate of extracted fields against hand annotations.
 
-Joins the pipeline's extractions to your ground-truth annotations and
+Joins the pipeline's extractions to the hand annotations and
 reports, per field type, how often the extraction matched, how often it
 was blank, and the confusion between the two. Also writes the merged
 predictions file that scripts/calibration.py consumes.

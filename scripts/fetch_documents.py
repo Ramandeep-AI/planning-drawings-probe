@@ -15,7 +15,8 @@ Manners built in: a named User-Agent with a contact address, one request at
 a time, 3 to 5 seconds of jittered sleep between requests, retries only on
 timeouts / 429 / 5xx with backoff, nothing re-downloaded that already
 exists. Forty applications is roughly 25 minutes. Run it once, off-peak.
-Before the first run, send the courtesy note in PLAN.md to Planning Services.
+Exeter Planning Services were told about the study, its scope and its
+manners before the first run (5 September 2026).
 
 Rights: the downloaded PDFs stay in data/raw/ (gitignored) and are used
 only for this study. See README, "Data and rights".

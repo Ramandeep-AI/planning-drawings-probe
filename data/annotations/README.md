@@ -41,9 +41,9 @@ Fields and allowed values:
   `multiple` when the sheet is titled with two or more floors
 - north_arrow: yes | no
 - room_count: integer, rooms on that floor plan page as a person would count
-  them (state your rule in README); floor plans only
+  them, by the rule stated in the main README; floor plans only
 - storeys: integer, for the whole application, written on the ground-floor page only
 
-Rules: annotate before looking at any model output for that page. Keep no
-names, addresses or free text here; if you need notes, keep them in a
+Rules: annotate before looking at any model output for that page. No
+names, addresses or free text are kept here; working notes live in a
 private file outside the repo.
