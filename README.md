@@ -23,7 +23,21 @@ planning authority's public register and answers four questions in order:
 
 The evaluation protocol was fixed before any model ran
 (`scripts/evaluate_fields.py`, `scripts/calibration.py`), so the metrics
-could not be chosen after seeing the results.
+could not be chosen after seeing the results. The primary metrics (field
+hit rate, expected calibration error, and selective prediction at a
+threshold of 0.8 declared in the first commit) have not changed.
+
+Protocol changes since the first commit, all made before any extraction
+was scored:
+
+- 17 September: the hit rate is also reported by source (text layer versus OCR).
+- 20 September: rows are keyed by sheet (document index plus page number)
+  instead of page number, because most files are single-page PDFs and the
+  page number was not unique within an application.
+- 20 September: only the fields the reader predicts (scale, drawing type,
+  floor label) are scored. Fields annotated for a later stage (north arrow,
+  room count, storeys) are reported as not scored, not counted as misses.
+  A sheet with no prediction counts as a miss at confidence 0.
 
 ## Status
 

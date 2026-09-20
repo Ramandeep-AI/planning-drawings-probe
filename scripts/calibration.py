@@ -55,7 +55,8 @@ def main():
 
     df = pd.read_csv(PRED, dtype=str, keep_default_na=False)
     df = df[df["truth"] != ""].copy()
-    df["confidence"] = df["confidence"].astype(float)
+    # A blank confidence means no prediction was made: confidence 0, routed to a person.
+    df["confidence"] = pd.to_numeric(df["confidence"], errors="coerce").fillna(0.0)
     df["correct"] = (df["predicted"].str.strip().str.lower()
                      == df["truth"].str.strip().str.lower()).astype(int)
     conf, correct = df["confidence"].to_numpy(), df["correct"].to_numpy()

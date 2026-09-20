@@ -34,9 +34,18 @@ def main():
     ext = pd.read_csv(EXT, dtype=str, keep_default_na=False)
     ann = pd.read_csv(ANN, dtype=str, keep_default_na=False)
     key = ["reference", "sheet", "field"]
+    # Only fields the extractor predicts are scored. Fields that are annotated
+    # for a later stage (north_arrow, room_count, storeys) are reported as not
+    # scored, never counted as misses.
+    predicted_fields = sorted(ext["field"].unique())
+    not_scored = ann[~ann["field"].isin(predicted_fields)]["field"].value_counts().to_dict()
+    ann = ann[ann["field"].isin(predicted_fields)]
     merged = ann.merge(ext, on=key, how="left")
     merged["predicted"] = merged["predicted"].fillna("")
-    merged["confidence"] = merged["confidence"].replace("", "0").astype(float)
+    # A sheet with no prediction at all is a blank: a miss at confidence 0.
+    merged["confidence"] = pd.to_numeric(merged["confidence"], errors="coerce").fillna(0.0)
+    if not_scored:
+        print(f"annotated but not scored at this stage: {not_scored}")
     merged["hit"] = merged.apply(lambda r: norm(r.predicted) == norm(r.truth), axis=1)
     merged["blank"] = merged["predicted"].str.strip() == ""
 
@@ -60,6 +69,8 @@ def main():
     MET.parent.mkdir(parents=True, exist_ok=True)
     MET.write_text(json.dumps({
         "n_annotated": int(len(merged)),
+        "fields_scored": predicted_fields,
+        "annotated_not_scored": not_scored,
         "overall_hit_rate": round(float(merged["hit"].mean()), 4),
         "per_field": rep.reset_index().to_dict(orient="records"),
         "by_source": by_source.reset_index().to_dict(orient="records") if by_source is not None else None,
