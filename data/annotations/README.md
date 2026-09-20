@@ -18,16 +18,19 @@ pages have no rows.
 
 File: `annotations.csv`
 
-    reference,page,field,truth
-    26_0025_FUL,2,scale,1:50
-    26_0025_FUL,2,drawing_type,floor_plan
-    26_0025_FUL,2,floor_label,ground
-    26_0025_FUL,2,north_arrow,yes
-    26_0025_FUL,2,room_count,5
-    26_0025_FUL,2,storeys,2
+    reference,sheet,field,truth
+    26_0025_FUL,02-1,scale,1:50
+    26_0025_FUL,02-1,drawing_type,floor_plan
+    26_0025_FUL,02-1,floor_label,ground
+    26_0025_FUL,02-1,north_arrow,yes
+    26_0025_FUL,02-1,room_count,5
+    26_0025_FUL,02-1,storeys,2
 
 References use the file-system form (`26_0025_FUL`), the same as
-`data/processed/pages.csv` and `extractions.csv`, so the files join.
+`data/processed/pages.csv` and `extractions.csv`. `sheet` is the two-digit
+document index from the fetch log plus the page number within that
+document (`02-1`), which is unique within an application; most documents
+are single-page PDFs, so the page number alone would not be.
 
 Fields and allowed values:
 - scale: the scale stated in the title block, as printed, e.g. 1:50, 1:100,

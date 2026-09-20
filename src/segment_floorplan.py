@@ -14,7 +14,7 @@ that room_count is scored like every other field.
 Run:  env/bin/python -m src.segment_floorplan
 Reads:  data/processed/extractions.csv (to find pages OCR'd as floor plans)
         data/processed/pages/*.png
-Writes: data/processed/segmentation.csv (reference,page,field,predicted,confidence)
+Writes: data/processed/segmentation.csv (reference,sheet,field,predicted,confidence)
         data/processed/masks/<page>.png (gitignored; never commit a mask of
         a whole drawing, it reproduces a substantial part of the work)
 """
@@ -89,11 +89,12 @@ def rooms_from_floor_mask(floor_mask):
 def main():
     MASKS.mkdir(parents=True, exist_ok=True)
     ex = pd.read_csv(EXTR)
-    fp_pages = ex[(ex.field == "drawing_type") & (ex.predicted == "floor_plan")][["reference", "page"]].drop_duplicates()
+    fp_pages = ex[(ex.field == "drawing_type") & (ex.predicted == "floor_plan")][["reference", "sheet"]].drop_duplicates()
     model, device = load_model()
     rows = []
     for _, p in fp_pages.iterrows():
-        pngs = list(PAGES.glob(f"{p.reference}__*__p{p.page}.png"))
+        doc_index, page = str(p.sheet).split("-")          # sheet = document index + page, e.g. 03-1
+        pngs = list(PAGES.glob(f"{p.reference}__{doc_index}_*__p{page}.png"))
         if not pngs:
             continue
         img = Image.open(pngs[0]).convert("RGB")
@@ -105,11 +106,11 @@ def main():
         n_rooms = rooms_from_floor_mask(pred == 0)
         wall_frac = float((pred == 1).mean())
         Image.fromarray((pred * 60).astype(np.uint8)).save(MASKS / (pngs[0].stem + "_mask.png"))
-        rows += [[p.reference, p.page, "room_count", n_rooms, round(conf, 3)],
-                 [p.reference, p.page, "wall_fraction", round(wall_frac, 3), round(conf, 3)]]
+        rows += [[p.reference, p.sheet, "room_count", n_rooms, round(conf, 3)],
+                 [p.reference, p.sheet, "wall_fraction", round(wall_frac, 3), round(conf, 3)]]
         print(f"{pngs[0].name}: rooms {n_rooms}, wall fraction {wall_frac:.3f}, conf {conf:.3f}")
     with open(OUT, "w", newline="") as f:
-        w = csv.writer(f); w.writerow(["reference", "page", "field", "predicted", "confidence"]); w.writerows(rows)
+        w = csv.writer(f); w.writerow(["reference", "sheet", "field", "predicted", "confidence"]); w.writerows(rows)
     print(f"wrote {OUT}")
     # OPEN 4: segmentation.csv is merged into extractions.csv before
     # scripts/evaluate_fields.py runs, so room_count is scored against the

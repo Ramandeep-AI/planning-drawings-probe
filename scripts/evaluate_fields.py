@@ -6,8 +6,9 @@ was blank, and the confusion between the two. Also writes the merged
 predictions file that scripts/calibration.py consumes.
 
 Inputs:
-    data/processed/extractions.csv   reference,page,field,predicted,confidence
-    data/annotations/annotations.csv reference,page,field,truth
+    data/processed/extractions.csv   reference,sheet,field,predicted,confidence
+    data/annotations/annotations.csv reference,sheet,field,truth
+(sheet = two-digit document index + page number, e.g. 03-1)
 Field names must match between the two files (see README field list).
 
 Run:  env/bin/python scripts/evaluate_fields.py
@@ -32,7 +33,7 @@ def norm(s):
 def main():
     ext = pd.read_csv(EXT, dtype=str, keep_default_na=False)
     ann = pd.read_csv(ANN, dtype=str, keep_default_na=False)
-    key = ["reference", "page", "field"]
+    key = ["reference", "sheet", "field"]
     merged = ann.merge(ext, on=key, how="left")
     merged["predicted"] = merged["predicted"].fillna("")
     merged["confidence"] = merged["confidence"].replace("", "0").astype(float)

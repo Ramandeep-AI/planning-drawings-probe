@@ -49,7 +49,8 @@ addresses.
 Run:  env/bin/python -m src.ocr_titleblock [--limit N] [--out path]
 Reads:  data/processed/pages.csv, data/raw/<ref>/<file>.pdf,
         data/processed/pages/*.png (rendered by audit_pages.py)
-Writes: data/processed/extractions.csv (reference,page,field,predicted,confidence,source)
+Writes: data/processed/extractions.csv (reference,sheet,field,predicted,confidence,source)
+        where sheet = two-digit document index + page number, e.g. 03-1
         data/processed/ocr/<page>.json and crops (gitignored)
 """
 import argparse
@@ -294,14 +295,15 @@ def main():
             n_ocr += 1
         else:
             n_text += 1
+        sheet = f"{p.file[:2]}-{p.page}"          # document index + page, unique within an application
         for field, (value, conf) in fields.items():
-            rows.append([p.reference, p.page, field, value, conf, source])
+            rows.append([p.reference, sheet, field, value, conf, source])
         print(f"{png.name}: {source:10s} " + ", ".join(f"{k}={v[0]}({v[1]})" for k, v in fields.items()))
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with open(args.out, "w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["reference", "page", "field", "predicted", "confidence", "source"])
+        w.writerow(["reference", "sheet", "field", "predicted", "confidence", "source"])
         w.writerows(rows)
     print(f"\n{len(pages)} pages: {n_text} read from the text layer, {n_ocr} from OCR, "
           f"{n_none} with no words at all. Wrote {args.out} ({len(rows)} field predictions).")

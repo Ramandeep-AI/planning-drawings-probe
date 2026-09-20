@@ -6,7 +6,7 @@ selective-prediction (abstention) curve with a chosen confidence threshold
 below which a field is routed to human review.
 
 Input CSV (data/processed/predictions.csv), one row per extracted field:
-    reference,page,field,predicted,truth,confidence
+    reference,sheet,field,predicted,truth,confidence
       - confidence in [0, 1]
       - truth may be blank if not annotated (row is then skipped)
 
