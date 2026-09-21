@@ -13,8 +13,10 @@ Sample: `sample.txt` lists the applications annotated. It is a seeded random
 sample of 30 of the 42 eligible applications, drawn before annotation
 started. The two applications with more than 30 pages are excluded (one
 carries an 87-page ground investigation report filed under drawings).
-Every page of a sampled application is annotated unless skipped; skipped
-pages have no rows.
+Every page of a sampled application is annotated unless it is not a
+drawing at all (a product brochure or report text filed under drawings).
+Those pages are listed in `skipped.csv`, have no annotation rows, and are
+excluded from every rate.
 
 File: `annotations.csv`
 

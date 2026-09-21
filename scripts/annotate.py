@@ -10,7 +10,8 @@ Sample rule (fixed before annotation starts, recorded in sample.txt):
 Per page you are asked for drawing_type, scale, floor_label and north_arrow;
 for floor plans also room_count, and storeys on the ground-floor page.
 Keys are single letters; Enter repeats the previous page's value where shown.
-`x` skips the page (no row written), `q` quits. Rows are appended as you go,
+`x` skips a page that is not a drawing (recorded in skipped.csv, no
+annotation row), `q` quits. Rows are appended as you go,
 so quitting loses nothing; rerun to continue where you stopped.
 
 Run:  env/bin/python scripts/annotate.py                 # continue the sample
@@ -35,6 +36,7 @@ PAGES = ROOT / "data" / "processed" / "pages"
 ANN_DIR = ROOT / "data" / "annotations"
 ANN = ANN_DIR / "annotations.csv"
 SAMPLE = ANN_DIR / "sample.txt"
+SKIPPED = ANN_DIR / "skipped.csv"   # sampled pages that are not drawings (brochures, report text)
 
 TYPES = {"f": "floor_plan", "e": "elevation", "s": "section", "l": "location_plan",
          "p": "site_plan", "o": "other",
@@ -77,6 +79,22 @@ def done_pages():
         return set()
     df = pd.read_csv(ANN, dtype=str)
     return set(zip(df["reference"], df["sheet"]))
+
+
+def skipped_pages():
+    if not SKIPPED.exists():
+        return set()
+    df = pd.read_csv(SKIPPED, dtype=str)
+    return set(zip(df["reference"], df["sheet"]))
+
+
+def record_skip(reference, sheet):
+    new = not SKIPPED.exists()
+    with open(SKIPPED, "a", newline="") as f:
+        w = csv.writer(f)
+        if new:
+            w.writerow(["reference", "sheet"])
+        w.writerow([reference, sheet])
 
 
 def ask(prompt, valid=None, allow_blank=False, prev=None):
@@ -261,19 +279,22 @@ def main():
             print(f"sample of {len(refs)} applications written to {SAMPLE}")
         refs = load_sample()
 
-    done = done_pages()
+    done, skipped = done_pages(), skipped_pages()
     todo = [(r, row) for r in refs for row in pages[pages.reference == r].itertuples()
-            if (r, row.sheet) not in done]
+            if (r, row.sheet) not in done and (r, row.sheet) not in skipped]
     total = sum((pages.reference == r).sum() for r in refs)
-    print(f"{len(done)} pages annotated, {len(todo)} to go of {total} in the sample. "
-          f"Keys: x skip page, q quit.")
-    prev = {}
+    print(f"{len(done)} pages annotated, {len(skipped)} skipped as not drawings, "
+          f"{len(todo)} to go of {total} in the sample. Keys: x skip page, q quit.")
+    prev, last_ref = {}, None
     for reference, row in todo:
+        if reference != last_ref:          # defaults such as storeys never carry into another application
+            prev, last_ref = {}, reference
         status, prev = annotate_page(reference, row, prev)
         if status == "q":
             break
-    n = len(done_pages())
-    print(f"\n{n} pages annotated in {ANN}")
+        if status == "x":
+            record_skip(reference, row.sheet)      # remembered, so it is not offered again
+    print(f"\n{len(done_pages())} pages annotated, {len(skipped_pages())} skipped, in {ANN_DIR}")
 
 
 if __name__ == "__main__":
